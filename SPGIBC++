@@ -1,0 +1,73 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct Libro {
+    std::string titulo;
+    std::string autor;
+    bool prestado;
+};
+
+std::vector<Libro> inventario;
+
+void agregarLibro(std::string titulo, std::string autor) {
+    Libro nuevoLibro = {titulo, autor, false};
+    inventario.push_back(nuevoLibro);
+}
+
+void buscarLibroPorTitulo(std::string titulo) {
+    for (const auto& libro : inventario) {
+        if (libro.titulo == titulo) {
+            std::cout << "Libro encontrado - Autor: " << libro.autor << std::endl;
+            return;
+        }
+    }
+    std::cout << "Libro no encontrado" << std::endl;
+}
+
+void buscarLibroPorAutor(std::string autor) {
+    for (const auto& libro : inventario) {
+        if (libro.autor == autor) {
+            std::cout << "Libro encontrado - Título: " << libro.titulo << std::endl;
+            return;
+        }
+    }
+    std::cout << "Libro no encontrado" << std::endl;
+}
+
+void prestarLibro(std::string titulo) {
+    for (auto& libro : inventario) {
+        if (libro.titulo == titulo && !libro.prestado) {
+            libro.prestado = true;
+            std::cout << "Libro prestado exitosamente" << std::endl;
+            return;
+        }
+    }
+    std::cout << "El libro no está disponible para préstamo" << std::endl;
+}
+
+void devolverLibro(std::string titulo) {
+    for (auto& libro : inventario) {
+        if (libro.titulo == titulo && libro.prestado) {
+            libro.prestado = false;
+            std::cout << "Libro devuelto exitosamente" << std::endl;
+            return;
+        }
+    }
+    std::cout << "El libro no estaba prestado o no pertenece a la biblioteca" << std::endl;
+}
+
+int main() {
+    agregarLibro("Cien años de soledad", "Gabriel García Márquez");
+    agregarLibro("El principito", "Antoine de Saint-Exupéry");
+
+    buscarLibroPorTitulo("Cien años de soledad");
+    buscarLibroPorAutor("Antoine de Saint-Exupéry");
+
+    prestarLibro("Cien años de soledad");
+    prestarLibro("El principito");
+
+    devolverLibro("Cien años de soledad");
+    
+    return 0;
+}
